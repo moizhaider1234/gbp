@@ -1,0 +1,2134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$GBP — Good Boy Points</title>
+<meta name="description" content="$GBP — Good Boy Points. Earned with pawsitive behavior. The official home of Tendies lore.">
+
+<!-- Favicon: replace logo.png with your own file of the same name if needed -->
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy: #142140;
+    --navy-deep: #0d1730;
+    --navy-light: #23345c;
+    --gold: #cda15f;
+    --gold-bright: #e9c07f;
+    --cream: #f2e8d3;
+    --parchment: #ece0c4;
+    --tendie: #bf7a3c;
+    --tendie-dark: #8a5324;
+    --ribbon: #7c2536;
+    --ribbon-bright: #a63347;
+    --green-good: #4c7a52;
+    --ink: #1a1408;
+
+    --display: 'Anton', sans-serif;
+    --body: 'Fraunces', serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--body);
+    overflow-x: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  }
+
+  a{ color: inherit; text-decoration: none; }
+  img{ max-width: 100%; display:block; }
+
+  ::selection{ background: var(--gold); color: var(--navy-deep); }
+
+  :focus-visible{
+    outline: 3px solid var(--ribbon);
+    outline-offset: 3px;
+  }
+
+  ::-webkit-scrollbar{ width: 12px; }
+  ::-webkit-scrollbar-track{ background: var(--navy-deep); }
+  ::-webkit-scrollbar-thumb{ background: var(--gold); border: 3px solid var(--navy-deep); border-radius: 8px; }
+  html{ scrollbar-color: var(--gold) var(--navy-deep); }
+
+  /* ---------- utility ---------- */
+  .wrap{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .rope-divider{
+    width: 100%;
+    height: 22px;
+    background-image: repeating-linear-gradient(
+      -35deg,
+      var(--gold) 0px, var(--gold) 6px,
+      var(--gold-bright) 6px, var(--gold-bright) 12px
+    );
+    box-shadow: inset 0 3px 0 rgba(0,0,0,0.25), inset 0 -3px 0 rgba(0,0,0,0.25);
+  }
+
+  /* ---------- paw cursor trail ---------- */
+  .paw-trail{
+    position: fixed;
+    top:0; left:0;
+    z-index: 9999;
+    pointer-events:none;
+    font-size: 16px;
+    opacity: 0;
+    transform: translate(-50%,-50%) scale(0.6) rotate(0deg);
+    transition: opacity 0.4s ease;
+    will-change: transform, opacity;
+  }
+
+  /* ---------- marquee ticker ---------- */
+  .ticker{
+    position: relative;
+    background: var(--ribbon);
+    border-top: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-track{
+    display:inline-flex;
+    align-items:center;
+    animation: ticker-scroll 32s linear infinite;
+  }
+  .ticker:hover .ticker-track{ animation-play-state: paused; }
+  @keyframes ticker-scroll{
+    from{ transform: translateX(0); }
+    to{ transform: translateX(-50%); }
+  }
+  .ticker-item{
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cream);
+    font-weight: 600;
+    padding: 12px 26px;
+    display:inline-flex;
+    align-items:center;
+    gap: 12px;
+  }
+  .ticker-item .dot{ color: var(--gold-bright); }
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 100;
+    padding: 18px 0;
+    transition: background 0.35s ease, padding 0.35s ease, box-shadow 0.35s ease;
+  }
+  header.nav.scrolled{
+    background: var(--navy-deep);
+    padding: 10px 0;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+    border-bottom: 2px solid var(--gold);
+  }
+  .nav-row{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+  }
+  .brand img{
+    width: 44px; height:44px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    transition: transform 0.4s ease;
+  }
+  .brand:hover img{ transform: rotate(-14deg) scale(1.08); }
+  .brand span{
+    font-family: var(--display);
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+  }
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap: 26px;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+  .nav-links a{
+    position:relative;
+    padding-bottom: 4px;
+    opacity: 0.8;
+    transition: opacity 0.2s ease, color 0.2s ease;
+  }
+  .nav-links a:hover{ opacity: 1; }
+  .nav-links a::after{
+    content:"";
+    position:absolute; left:0; bottom:0;
+    width:0; height:2px;
+    background: var(--gold-bright);
+    transition: width 0.25s ease;
+  }
+  .nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
+  .nav-links a.active{ opacity:1; color: var(--gold-bright); }
+  .btn{
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 11px 22px;
+    border-radius: 3px;
+    border: 2px solid var(--gold);
+    background: var(--gold);
+    color: var(--navy-deep);
+    cursor:pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    display:inline-block;
+    position: relative;
+  }
+  .btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(205,161,95,0.35);
+    background: var(--gold-bright);
+  }
+  .btn:active{ transform: translateY(0px) scale(0.97); }
+  .btn.ghost{
+    background: transparent;
+    color: var(--cream);
+  }
+  .btn.ghost:hover{
+    background: rgba(233,192,127,0.12);
+  }
+  .nav-cta{ display:none; }
+  @media (min-width: 720px){ .nav-cta{ display:inline-block; } }
+  .nav-links{ display:none; }
+  @media (min-width: 900px){ .nav-links{ display:flex; } }
+
+  /* mobile menu */
+  .burger{
+    display:flex;
+    flex-direction:column;
+    gap: 5px;
+    width: 30px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding: 6px;
+  }
+  @media (min-width: 900px){ .burger{ display:none; } }
+  .burger span{
+    display:block;
+    height: 2px;
+    background: var(--gold-bright);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .burger.open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2){ opacity:0; }
+  .burger.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu{
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(320px, 82vw);
+    background: var(--navy-deep);
+    border-left: 2px solid var(--gold);
+    z-index: 99;
+    padding: 100px 32px 40px;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(.2,.9,.3,1);
+    display:flex;
+    flex-direction:column;
+    gap: 26px;
+  }
+  .mobile-menu.open{ transform: translateX(0); }
+  .mobile-menu a{
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.85;
+  }
+  .mobile-menu a:hover{ opacity:1; color: var(--gold-bright); }
+  .menu-scrim{
+    position: fixed; inset:0;
+    background: rgba(13,23,48,0.6);
+    z-index: 98;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.35s ease;
+  }
+  .menu-scrim.open{ opacity:1; pointer-events:auto; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position: relative;
+    min-height: 100svh;
+    display:flex;
+    align-items:center;
+    background:
+      radial-gradient(ellipse at 50% -10%, #1c2c52 0%, var(--navy) 45%, var(--navy-deep) 100%);
+    padding: 140px 0 70px;
+    overflow:hidden;
+    border-bottom: 10px solid var(--gold);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(120deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 6px);
+    pointer-events:none;
+  }
+  .hero-frame{
+    position:absolute;
+    inset: 20px;
+    border: 2px solid rgba(205,161,95,0.35);
+    pointer-events:none;
+  }
+  .hero-frame::before, .hero-frame::after{
+    content:"";
+    position:absolute;
+    width: 34px; height: 34px;
+    border: 2px solid var(--gold-bright);
+  }
+  .hero-frame::before{ top:-2px; left:-2px; border-right:none; border-bottom:none; }
+  .hero-frame::after{ bottom:-2px; right:-2px; border-left:none; border-top:none; }
+  .hero-grid{
+    position: relative;
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items:center;
+    text-align:center;
+  }
+  @media (min-width: 900px){
+    .hero-grid{
+      grid-template-columns: 1.15fr 0.85fr;
+      text-align:left;
+    }
+  }
+  .hero-eyebrow{
+    color: var(--gold-bright);
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    margin-bottom: 22px;
+    opacity: 0;
+    animation: fade-up 0.7s ease 0.05s forwards;
+  }
+  .hero-eyebrow::before{
+    content:"";
+    width: 8px; height:8px;
+    border-radius: 50%;
+    background: var(--gold-bright);
+    box-shadow: 0 0 10px var(--gold-bright);
+    animation: pulse-dot 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse-dot{
+    0%,100%{ opacity:1; transform: scale(1); }
+    50%{ opacity:0.4; transform: scale(0.7); }
+  }
+  @keyframes fade-up{
+    from{ opacity:0; transform: translateY(16px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+  h1.headline{
+    font-family: var(--display);
+    color: var(--cream);
+    font-size: clamp(48px, 8.5vw, 96px);
+    line-height: 0.94;
+    letter-spacing: 0.01em;
+    text-shadow: 0 4px 0 rgba(0,0,0,0.25);
+    opacity:0;
+    animation: fade-up 0.8s ease 0.15s forwards;
+  }
+  h1.headline em{
+    font-style: normal;
+    color: var(--gold-bright);
+    position: relative;
+    display:inline-block;
+  }
+  h1.headline em::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:6px;
+    width:100%; height: 10px;
+    background: var(--ribbon);
+    z-index:-1;
+    opacity: 0.55;
+    transform: scaleX(0);
+    transform-origin:left;
+    animation: underline-grow 0.6s ease 1s forwards;
+  }
+  @keyframes underline-grow{ to{ transform: scaleX(1); } }
+  .sub{
+    margin-top: 22px;
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: clamp(17px, 2.2vw, 20px);
+    color: rgba(242,232,211,0.82);
+    max-width: 46ch;
+    opacity:0;
+    animation: fade-up 0.8s ease 0.3s forwards;
+  }
+  @media (min-width: 900px){ .sub{ margin-left:0; } }
+  .sub{ margin-left:auto; margin-right:auto; }
+  @media (min-width: 900px){ .sub{ margin-left:0; margin-right:0; } }
+
+  .hero-actions{
+    margin-top: 34px;
+    display:flex;
+    flex-wrap:wrap;
+    gap: 14px;
+    justify-content:center;
+    opacity:0;
+    animation: fade-up 0.8s ease 0.42s forwards;
+  }
+  @media (min-width: 900px){ .hero-actions{ justify-content:flex-start; } }
+
+  .btn.pulse{
+    animation: btn-pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes btn-pulse{
+    0%,100%{ box-shadow: 0 0 0 0 rgba(233,192,127,0.5); }
+    50%{ box-shadow: 0 0 0 10px rgba(233,192,127,0); }
+  }
+
+  .ca-box{
+    margin-top: 30px;
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    background: rgba(0,0,0,0.28);
+    border: 1px dashed rgba(205,161,95,0.55);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--cream);
+    max-width: 100%;
+    opacity:0;
+    animation: fade-up 0.8s ease 0.54s forwards;
+  }
+  .ca-box code{
+    overflow-x:auto;
+    white-space:nowrap;
+    max-width: 260px;
+  }
+  @media (min-width:520px){ .ca-box code{ max-width: none; } }
+  .copy-btn{
+    flex-shrink:0;
+    background: var(--gold);
+    color: var(--navy-deep);
+    border:none;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor:pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+  .copy-btn:hover{ background: var(--gold-bright); }
+  .copy-btn:active{ transform: scale(0.94); }
+
+  /* seal / patch visual in hero */
+  .seal-wrap{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    perspective: 800px;
+  }
+  .seal{
+    width: min(340px, 78vw);
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.45));
+    animation: seal-in 1.1s cubic-bezier(.2,1.4,.4,1) both, seal-float 5s ease-in-out 1.1s infinite;
+    will-change: transform;
+  }
+  @keyframes seal-in{
+    0%{ transform: scale(0.4) rotate(-18deg); opacity:0; }
+    70%{ transform: scale(1.06) rotate(3deg); opacity:1; }
+    100%{ transform: scale(1) rotate(0deg); opacity:1; }
+  }
+  @keyframes seal-float{
+    0%,100%{ transform: translateY(0) rotate(0deg); }
+    50%{ transform: translateY(-14px) rotate(-2deg); }
+  }
+  .seal-ring{
+    position:absolute;
+    inset: -18px;
+    border-radius:50%;
+    border: 2px dashed rgba(233,192,127,0.4);
+    animation: spin 40s linear infinite;
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  .falling-tendies{
+    position:absolute; inset:0;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .tendie-bit{
+    position:absolute;
+    top:-40px;
+    font-size: 20px;
+    opacity: 0.5;
+    animation: fall linear infinite;
+  }
+  @keyframes fall{
+    to{ transform: translateY(115vh) rotate(200deg); }
+  }
+
+  .stat-row{
+    margin-top: 40px;
+    display:flex;
+    flex-wrap:wrap;
+    gap: 26px;
+    justify-content:center;
+    opacity:0;
+    animation: fade-up 0.8s ease 0.66s forwards;
+  }
+  @media (min-width:900px){ .stat-row{ justify-content:flex-start; } }
+  .stat{
+    font-family: var(--mono);
+    color: var(--cream);
+  }
+  .stat b{
+    display:block;
+    font-family: var(--display);
+    font-size: 22px;
+    color: var(--gold-bright);
+    letter-spacing: 0.02em;
+  }
+  .stat span{
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .scroll-cue{
+    position: absolute;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap: 6px;
+    color: rgba(242,232,211,0.55);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .scroll-cue .paw-bounce{
+    animation: paw-bounce 1.6s ease-in-out infinite;
+  }
+  @keyframes paw-bounce{
+    0%,100%{ transform: translateY(0); opacity:0.5; }
+    50%{ transform: translateY(8px); opacity:1; }
+  }
+
+  /* ---------- section shell ---------- */
+  section{
+    position: relative;
+    padding: 100px 0;
+  }
+  .section-dark{
+    background: var(--navy-deep);
+    color: var(--cream);
+  }
+  .section-head{
+    max-width: 640px;
+    margin-bottom: 56px;
+  }
+  .section-head .eyebrow{ color: var(--tendie-dark); }
+  .section-dark .section-head .eyebrow{ color: var(--gold-bright); }
+  .section-head h2{
+    font-family: var(--display);
+    font-size: clamp(34px, 5vw, 54px);
+    line-height: 1;
+    margin-top: 14px;
+  }
+  .section-head p{
+    margin-top: 18px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: rgba(26,20,8,0.72);
+    max-width: 52ch;
+  }
+  .section-dark .section-head p{ color: rgba(242,232,211,0.72); }
+
+  /* ---------- lore ---------- */
+  .lore{
+    background: var(--parchment);
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(191,122,60,0.10), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(191,122,60,0.08), transparent 45%);
+  }
+  .lore-card{
+    position: relative;
+    background: var(--cream);
+    border: 1px solid rgba(191,122,60,0.35);
+    border-radius: 4px;
+    padding: 46px clamp(24px, 5vw, 60px);
+    box-shadow: 0 24px 50px -20px rgba(20,33,64,0.25);
+  }
+  .lore-card::before{
+    content: "EST.";
+    position:absolute;
+    top: -14px; left: 40px;
+    background: var(--tendie);
+    color: var(--cream);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    padding: 5px 10px;
+    border-radius: 3px;
+  }
+  .lore-card p{
+    font-size: clamp(17px, 2vw, 19px);
+    line-height: 1.85;
+    color: var(--ink);
+  }
+  .lore-card p + p{ margin-top: 20px; }
+  .lore-card .drop-cap::first-letter{
+    font-family: var(--display);
+    font-size: 64px;
+    line-height: 0.7;
+    float: left;
+    padding: 6px 10px 0 0;
+    color: var(--tendie-dark);
+  }
+  .lore-quote{
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px dashed rgba(191,122,60,0.5);
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--tendie-dark);
+  }
+
+  /* ---------- archive timeline (horizontal scroll) ---------- */
+  .archive{
+    margin-top: 54px;
+  }
+  .archive-scroller{
+    display:flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 8px 4px 26px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .archive-scroller::-webkit-scrollbar{ height: 8px; }
+  .archive-scroller::-webkit-scrollbar-thumb{ background: var(--tendie); border-radius: 8px; }
+  .archive-card{
+    scroll-snap-align: start;
+    flex: 0 0 260px;
+    background: var(--cream);
+    border: 1px solid rgba(191,122,60,0.35);
+    border-radius: 6px;
+    padding: 22px 20px;
+    box-shadow: 0 14px 30px -18px rgba(20,33,64,0.3);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .archive-card:hover{
+    transform: translateY(-6px) rotate(-0.5deg);
+    box-shadow: 0 20px 34px -16px rgba(20,33,64,0.4);
+  }
+  .archive-card .year{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--tendie-dark);
+    background: rgba(191,122,60,0.12);
+    display:inline-block;
+    padding: 4px 9px;
+    border-radius: 3px;
+  }
+  .archive-card h4{
+    margin-top: 14px;
+    font-family: var(--display);
+    font-size: 17px;
+    letter-spacing: 0.02em;
+  }
+  .archive-card p{
+    margin-top: 8px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: rgba(26,20,8,0.68);
+  }
+  .archive-hint{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(26,20,8,0.4);
+    margin-top: -10px;
+    margin-bottom: 8px;
+  }
+
+  /* ---------- badges / tracker ---------- */
+  .tracker-top{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 24px;
+    align-items:flex-end;
+    justify-content:space-between;
+    margin-bottom: 34px;
+  }
+  .tracker-score{
+    font-family: var(--mono);
+    color: var(--cream);
+  }
+  .tracker-score .label{
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.65;
+    display:block;
+    margin-bottom: 6px;
+  }
+  .tracker-score .num{
+    font-family: var(--display);
+    font-size: 44px;
+    color: var(--gold-bright);
+    letter-spacing: 0.02em;
+  }
+  .tracker-bar{
+    width: 100%;
+    max-width: 320px;
+    height: 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.08);
+    overflow:hidden;
+    border: 1px solid rgba(233,192,127,0.25);
+  }
+  .tracker-bar-fill{
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--tendie), var(--gold-bright));
+    transition: width 0.5s cubic-bezier(.3,1,.4,1);
+  }
+  .tracker-reset{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.6;
+    background: none;
+    border: 1px solid rgba(233,192,127,0.3);
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor:pointer;
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+  }
+  .tracker-reset:hover{ opacity: 1; border-color: var(--gold); }
+
+  .badge-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+  @media (min-width: 720px){
+    .badge-grid{ grid-template-columns: repeat(4, 1fr); }
+  }
+  .badge{
+    background: var(--navy);
+    border-radius: 10px;
+    padding: 26px 18px 22px;
+    text-align:center;
+    border: 1px solid var(--navy-light);
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .badge:hover{
+    transform: translateY(-6px);
+    border-color: var(--gold);
+  }
+  .badge.done{
+    border-color: var(--gold-bright);
+    background: var(--navy-light);
+  }
+  .badge.done::after{
+    content: "✓ EARNED";
+    position:absolute;
+    top: 10px; right: 10px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--gold-bright);
+    background: rgba(0,0,0,0.35);
+    padding: 3px 6px;
+    border-radius: 3px;
+  }
+  .badge-icon{
+    width: 64px; height:64px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--gold-bright), var(--tendie) 70%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size: 26px;
+    border: 3px solid var(--gold);
+    box-shadow: inset 0 -6px 10px rgba(0,0,0,0.25);
+    transition: transform 0.3s cubic-bezier(.3,1.6,.4,1);
+  }
+  .badge.done .badge-icon{ transform: scale(1.08) rotate(-6deg); }
+  .badge h3{
+    font-family: var(--display);
+    font-size: 16px;
+    letter-spacing: 0.03em;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .badge .pts{
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gold-bright);
+    font-weight: 600;
+  }
+  .badge p{
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(242,232,211,0.6);
+  }
+  .tracker-hint{
+    margin-top: 22px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: rgba(242,232,211,0.45);
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- how to buy ---------- */
+  .steps{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    counter-reset: step;
+  }
+  @media (min-width: 800px){
+    .steps{ grid-template-columns: repeat(3, 1fr); }
+  }
+  .step-card{
+    background: var(--cream);
+    border: 2px solid var(--navy);
+    border-radius: 6px;
+    padding: 30px 24px;
+    position: relative;
+    transition: transform 0.25s ease;
+  }
+  .step-card:hover{ transform: translateY(-5px); }
+  .step-card .step-num{
+    font-family: var(--display);
+    font-size: 40px;
+    color: var(--tendie);
+    line-height: 1;
+  }
+  .step-card h3{
+    margin-top: 14px;
+    font-family: var(--display);
+    font-size: 19px;
+    color: var(--navy);
+    letter-spacing: 0.02em;
+  }
+  .step-card p{
+    margin-top: 10px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: rgba(26,20,8,0.68);
+  }
+  .step-arrow{
+    display:none;
+    position: absolute;
+    top: 50%;
+    right: -30px;
+    transform: translateY(-50%);
+    font-size: 22px;
+    color: var(--tendie);
+  }
+  @media (min-width: 800px){
+    .step-card:not(:last-child) .step-arrow{ display:block; }
+  }
+
+  /* ---------- tokenomics ---------- */
+  .token-layout{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 46px;
+    align-items:center;
+  }
+  @media (min-width: 860px){
+    .token-layout{ grid-template-columns: 0.85fr 1.15fr; }
+  }
+  .donut-wrap{
+    display:flex;
+    justify-content:center;
+  }
+  .donut{
+    position: relative;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: conic-gradient(
+      var(--tendie) 0% 45%,
+      var(--gold) 45% 70%,
+      var(--navy) 70% 88%,
+      var(--ribbon) 88% 100%
+    );
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: 0 20px 40px -18px rgba(20,33,64,0.35);
+    animation: donut-in 1s cubic-bezier(.2,1,.3,1) both;
+  }
+  @keyframes donut-in{
+    from{ transform: scale(0.7) rotate(-90deg); opacity:0; }
+    to{ transform: scale(1) rotate(0deg); opacity:1; }
+  }
+  .donut::before{
+    content:"";
+    position:absolute;
+    inset: 26px;
+    background: var(--parchment);
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 2px rgba(191,122,60,0.3);
+  }
+  .donut-center{
+    position: relative;
+    text-align:center;
+    font-family: var(--mono);
+  }
+  .donut-center b{
+    display:block;
+    font-family: var(--display);
+    font-size: 24px;
+    color: var(--navy);
+  }
+  .donut-center span{
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform:uppercase;
+    color: rgba(26,20,8,0.55);
+  }
+  .legend{
+    display:flex;
+    flex-direction:column;
+    gap: 12px;
+    margin-top: 22px;
+  }
+  .legend-row{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+  }
+  .legend-swatch{
+    width: 12px; height:12px;
+    border-radius: 3px;
+    flex-shrink:0;
+  }
+  .legend-label{ flex:1; opacity: 0.75; }
+  .legend-val{ font-weight: 700; color: var(--navy); }
+
+  .token-grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  @media (min-width: 520px){
+    .token-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  .token-card{
+    background: var(--cream);
+    border: 2px solid var(--navy);
+    border-radius: 4px;
+    padding: 26px 20px;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .token-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 14px 26px -16px rgba(20,33,64,0.4);
+  }
+  .token-card .k{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tendie-dark);
+  }
+  .token-card .v{
+    margin-top: 10px;
+    font-family: var(--display);
+    font-size: 30px;
+    color: var(--navy);
+  }
+  .token-note{
+    margin-top: 26px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: rgba(26,20,8,0.55);
+    line-height: 1.7;
+  }
+
+  /* ---------- report card ---------- */
+  .report-card{
+    background: var(--cream);
+    border: 3px solid var(--navy);
+    border-radius: 6px;
+    overflow:hidden;
+  }
+  .report-head{
+    background: var(--navy);
+    color: var(--cream);
+    padding: 22px 28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .report-row{
+    display:grid;
+    grid-template-columns: 60px 1fr;
+    border-top: 1px solid rgba(20,33,64,0.15);
+    transition: background 0.2s ease;
+  }
+  .report-row:hover{ background: rgba(191,122,60,0.06); }
+  @media (min-width: 640px){
+    .report-row{ grid-template-columns: 90px 1fr 160px; }
+  }
+  .grade{
+    background: var(--tendie);
+    color: var(--cream);
+    font-family: var(--display);
+    font-size: 30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .report-body{
+    padding: 22px 24px;
+  }
+  .report-body h3{
+    font-family: var(--display);
+    font-size: 19px;
+    letter-spacing: 0.02em;
+    color: var(--navy);
+  }
+  .report-body p{
+    margin-top: 6px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: rgba(26,20,8,0.68);
+    max-width: 60ch;
+  }
+  .report-progress{
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    gap: 8px;
+    padding: 0 24px;
+    border-left: 1px dashed rgba(20,33,64,0.15);
+  }
+  @media (min-width:640px){ .report-progress{ display:flex; } }
+  .report-progress .rp-label{
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--tendie-dark);
+  }
+  .report-progress .rp-bar{
+    height: 7px;
+    border-radius: 4px;
+    background: rgba(20,33,64,0.12);
+    overflow:hidden;
+  }
+  .report-progress .rp-fill{
+    height: 100%;
+    background: var(--tendie);
+    width: 0%;
+    transition: width 1.1s cubic-bezier(.2,1,.3,1);
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-list{
+    display:flex;
+    flex-direction:column;
+    gap: 14px;
+  }
+  .faq-item{
+    background: var(--navy);
+    border: 1px solid var(--navy-light);
+    border-radius: 8px;
+    overflow:hidden;
+    transition: border-color 0.2s ease;
+  }
+  .faq-item.open{ border-color: var(--gold); }
+  .faq-q{
+    width: 100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 16px;
+    padding: 20px 24px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-align:left;
+    font-family: var(--display);
+    font-size: 16.5px;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+  }
+  .faq-q .plus{
+    font-family: var(--mono);
+    font-size: 20px;
+    color: var(--gold-bright);
+    flex-shrink:0;
+    transition: transform 0.3s ease;
+  }
+  .faq-item.open .faq-q .plus{ transform: rotate(135deg); }
+  .faq-a{
+    max-height: 0;
+    overflow:hidden;
+    transition: max-height 0.4s ease;
+  }
+  .faq-a-inner{
+    padding: 0 24px 22px;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: rgba(242,232,211,0.68);
+    max-width: 65ch;
+  }
+
+  /* ---------- leaderboard ---------- */
+  .board-wrap{
+    background: var(--cream);
+    border: 2px solid var(--navy);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .board-scroll{ overflow-x:auto; }
+  table.board{
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+  }
+  table.board thead th{
+    background: var(--navy);
+    color: var(--gold-bright);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align:left;
+    padding: 16px 20px;
+  }
+  table.board tbody td{
+    padding: 16px 20px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    border-top: 1px solid rgba(20,33,64,0.12);
+  }
+  table.board tbody tr{ transition: background 0.2s ease; }
+  table.board tbody tr:hover{ background: rgba(191,122,60,0.08); }
+  table.board .rank{
+    font-family: var(--display);
+    font-size: 16px;
+    color: var(--tendie-dark);
+  }
+  table.board .rank.gold{ color: #b8860b; }
+  table.board .title-tag{
+    display:inline-block;
+    background: rgba(191,122,60,0.14);
+    color: var(--tendie-dark);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+  }
+  .board-note{
+    padding: 16px 20px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: rgba(26,20,8,0.5);
+    border-top: 1px solid rgba(20,33,64,0.12);
+    background: var(--parchment);
+  }
+
+  /* ---------- kennel signup ---------- */
+  .kennel{
+    background: var(--parchment);
+    border: 2px dashed rgba(191,122,60,0.5);
+    border-radius: 10px;
+    padding: 40px clamp(20px,4vw,48px);
+    display:flex;
+    flex-direction:column;
+    gap: 18px;
+    align-items:flex-start;
+  }
+  @media (min-width: 760px){
+    .kennel{
+      flex-direction:row;
+      align-items:center;
+      justify-content:space-between;
+      gap: 30px;
+    }
+  }
+  .kennel h3{
+    font-family: var(--display);
+    font-size: 24px;
+    color: var(--navy);
+  }
+  .kennel p{
+    margin-top: 8px;
+    font-size: 14.5px;
+    color: rgba(26,20,8,0.68);
+    max-width: 42ch;
+  }
+  .kennel-form{
+    display:flex;
+    gap: 10px;
+    flex-wrap:wrap;
+    width: 100%;
+  }
+  @media (min-width: 760px){ .kennel-form{ width:auto; } }
+  .kennel-form input{
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 12px 14px;
+    border-radius: 4px;
+    border: 2px solid var(--navy);
+    background: var(--cream);
+    color: var(--ink);
+    min-width: 0;
+    flex: 1 1 200px;
+  }
+  .kennel-form input:focus{ outline: 3px solid var(--tendie); outline-offset: 2px; }
+  .kennel-msg{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--green-good);
+    min-height: 1em;
+  }
+
+  /* ---------- community / footer ---------- */
+  footer{
+    background: var(--navy-deep);
+    color: rgba(242,232,211,0.75);
+    padding: 80px 0 40px;
+  }
+  .footer-top{
+    text-align:center;
+    padding-bottom: 60px;
+  }
+  .footer-top h2{
+    font-family: var(--display);
+    font-size: clamp(32px, 6vw, 58px);
+    color: var(--cream);
+    line-height: 1;
+  }
+  .footer-top p{
+    margin: 18px auto 30px;
+    max-width: 46ch;
+    color: rgba(242,232,211,0.65);
+  }
+  .social-row{
+    display:flex;
+    gap: 14px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .footer-bottom{
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(205,161,95,0.2);
+    display:flex;
+    flex-wrap:wrap;
+    gap: 16px;
+    justify-content:space-between;
+    align-items:center;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.03em;
+    color: rgba(242,232,211,0.45);
+  }
+  .footer-bottom .disclaimer{
+    max-width: 640px;
+    line-height: 1.6;
+  }
+
+  /* ---------- back to top ---------- */
+  .to-top{
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--navy-deep);
+    border: 2px solid var(--navy-deep);
+    font-size: 18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    z-index: 90;
+    opacity: 0;
+    transform: translateY(12px) scale(0.8);
+    pointer-events:none;
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.3);
+  }
+  .to-top.show{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events:auto;
+  }
+  .to-top:hover{ background: var(--gold-bright); }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.in{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger.in > *{
+    animation: fade-up 0.6s ease both;
+  }
+  .reveal-stagger.in > *:nth-child(1){ animation-delay: 0.02s; }
+  .reveal-stagger.in > *:nth-child(2){ animation-delay: 0.1s; }
+  .reveal-stagger.in > *:nth-child(3){ animation-delay: 0.18s; }
+  .reveal-stagger.in > *:nth-child(4){ animation-delay: 0.26s; }
+  .reveal-stagger.in > *:nth-child(5){ animation-delay: 0.34s; }
+  .reveal-stagger.in > *:nth-child(6){ animation-delay: 0.42s; }
+
+  .paw{
+    display:inline-block;
+    transform: translateY(1px);
+  }
+
+  /* confetti */
+  .confetti-piece{
+    position: fixed;
+    top: -20px;
+    width: 8px; height: 14px;
+    z-index: 200;
+    pointer-events:none;
+    animation: confetti-fall linear forwards;
+  }
+  @keyframes confetti-fall{
+    to{ transform: translateY(110vh) rotate(540deg); opacity: 0.2; }
+  }
+</style>
+</head>
+<body>
+
+<div class="paw-trail" id="pawTrail" aria-hidden="true">🐾</div>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <span class="ticker-item"><span class="dot">●</span> $GBP — GOOD BOY POINTS</span>
+    <span class="ticker-item"><span class="dot">●</span> 0% BUY / SELL TAX</span>
+    <span class="ticker-item"><span class="dot">●</span> LIQUIDITY LOCKED</span>
+    <span class="ticker-item"><span class="dot">●</span> OWNERSHIP RENOUNCED</span>
+    <span class="ticker-item"><span class="dot">●</span> NO SOPHISTICATED ROI, ONLY TENDIES</span>
+    <span class="ticker-item"><span class="dot">●</span> 100% PAWSITIVE BEHAVIOR</span>
+    <span class="ticker-item"><span class="dot">●</span> $GBP — GOOD BOY POINTS</span>
+    <span class="ticker-item"><span class="dot">●</span> 0% BUY / SELL TAX</span>
+    <span class="ticker-item"><span class="dot">●</span> LIQUIDITY LOCKED</span>
+    <span class="ticker-item"><span class="dot">●</span> OWNERSHIP RENOUNCED</span>
+    <span class="ticker-item"><span class="dot">●</span> NO SOPHISTICATED ROI, ONLY TENDIES</span>
+    <span class="ticker-item"><span class="dot">●</span> 100% PAWSITIVE BEHAVIOR</span>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="siteNav">
+  <div class="wrap nav-row">
+    <a href="#top" class="brand">
+      <img src="logo.png" alt="Good Boy Points seal">
+      <span>$GBP</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#lore">The Lore</a>
+      <a href="#earn">Earn Points</a>
+      <a href="#tokenomics">Tokenomics</a>
+      <a href="#report-card">Report Card</a>
+      <a href="#faq">FAQ</a>
+      <a href="#community">Community</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <a href="#buy" class="btn nav-cta">Buy $GBP</a>
+      <button class="burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu-scrim" id="menuScrim"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#lore">The Lore</a>
+  <a href="#earn">Earn Points</a>
+  <a href="#tokenomics">Tokenomics</a>
+  <a href="#report-card">Report Card</a>
+  <a href="#faq">FAQ</a>
+  <a href="#community">Community</a>
+  <a href="#buy" class="btn" style="text-align:center; margin-top:10px;">Buy $GBP</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-frame" aria-hidden="true"></div>
+  <div class="falling-tendies" id="fallingTendies" aria-hidden="true"></div>
+
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow hero-eyebrow">Good boy energy only</div>
+      <h1 class="headline">SIT. STAY.<br><em>EARN TENDIES.</em></h1>
+      <p class="sub">$GBP turns the internet's favorite man-child lore into an on-chain reward system. No sophisticated ROI here — just good boy points, redeemed for tendies.</p>
+
+      <div class="hero-actions">
+        <a href="#buy" class="btn pulse">Buy $GBP</a>
+        <a href="#lore" class="btn ghost">Read the Lore →</a>
+      </div>
+
+      <div class="ca-box">
+        <span class="eyebrow" style="color:var(--gold-bright); opacity:0.8;">CA</span>
+        <code id="caText">0x523b2177a71936f89a1e0c2b8da791a3d8b0b4ba</code>
+        <button class="copy-btn" id="copyBtn" type="button">Copy</button>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat"><b data-count="100" data-suffix="%">0%</b><span>Pawsitive Behavior</span></div>
+        <div class="stat"><b>0</b><span>Sophisticated ROI</span></div>
+        <div class="stat"><b>∞</b><span>Tendies Earned</span></div>
+      </div>
+    </div>
+
+    <div class="seal-wrap">
+      <div class="seal-ring" aria-hidden="true"></div>
+      <img src="logo.png" alt="Good Boy Points official seal — earned with pawsitive behavior" class="seal">
+    </div>
+  </div>
+
+  <div class="scroll-cue" aria-hidden="true">
+    <span>Scroll for lore</span>
+    <span class="paw-bounce">🐾</span>
+  </div>
+</section>
+
+<div class="rope-divider" aria-hidden="true"></div>
+
+<!-- ============ LORE ============ -->
+<section class="lore" id="lore">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Chapter One</div>
+      <h2>The Origin Narrative</h2>
+      <p>Before it was a ticker, it was a bedtime story the internet told about itself.</p>
+    </div>
+
+    <div class="lore-card reveal">
+      <p class="drop-cap">"Tendies" — internet shorthand for chicken tenders — began as lore about a certain stereotypical man-child, still living in his mother's basement, whose entire economy ran on one currency: behavior.</p>
+      <p>In the story, he earns Good Boy Points for acceptable conduct — showering, leaving the room, not yelling at the television — and redeems them for a plate of chicken tenders, prepared by a long-suffering mother upstairs.</p>
+      <p>Somewhere along the way, traders adopted the bit. A green candle stopped being a "return on investment" and started being tendies. A red one meant no tendies tonight. It was never really about the money. It was about the plate at the end of a good day.</p>
+      <div class="lore-quote">— as passed down through the annals of the internet, retold on-chain</div>
+    </div>
+
+    <div class="archive reveal">
+      <div class="archive-hint">Scroll the archive →</div>
+      <div class="archive-scroller">
+        <div class="archive-card">
+          <span class="year">GEN 0</span>
+          <h4>The Basement Economy</h4>
+          <p>A forum post describes a grown man tracking his own chores like a toddler's sticker chart. It gets screenshotted forever.</p>
+        </div>
+        <div class="archive-card">
+          <span class="year">GEN 1</span>
+          <h4>Tendies Enter Trading Slang</h4>
+          <p>Green candles start getting called tendies. The bit spreads from forums to trading floors of the mind.</p>
+        </div>
+        <div class="archive-card">
+          <span class="year">GEN 2</span>
+          <h4>The Report Card Format</h4>
+          <p>Someone formalizes it: grades, subjects, a status column. Good behavior gets a paper trail.</p>
+        </div>
+        <div class="archive-card">
+          <span class="year">GEN 3</span>
+          <h4>On-Chain Good Boy Points</h4>
+          <p>The bit gets a contract, a seal, and a supply cap. The plate of tendies becomes a community, not a punchline.</p>
+        </div>
+        <div class="archive-card">
+          <span class="year">GEN 4</span>
+          <h4>You Are Here</h4>
+          <p>Whatever chapter comes next gets written by whoever shows up and earns their stripes. Sit. Stay. Read on.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EARN POINTS / TRACKER ============ -->
+<section class="section-dark" id="earn">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Chapter Two</div>
+      <h2>Earn Your Stripes</h2>
+      <p>Every good boy has a system. Tap a badge below to log the behavior and watch your points stack up.</p>
+    </div>
+
+    <div class="tracker-top reveal">
+      <div class="tracker-score">
+        <span class="label">Your Session Points</span>
+        <span class="num"><span id="trackerScore">0</span> GBP</span>
+        <div class="tracker-bar" style="margin-top:12px;">
+          <div class="tracker-bar-fill" id="trackerFill"></div>
+        </div>
+      </div>
+      <button class="tracker-reset" id="trackerReset" type="button">Reset Report</button>
+    </div>
+
+    <div class="badge-grid reveal-stagger reveal" id="badgeGrid">
+      <div class="badge" data-points="10" tabindex="0" role="button" aria-pressed="false">
+        <div class="badge-icon">🐾</div>
+        <h3>SIT</h3>
+        <div class="pts">+10 GBP</div>
+        <p>The bare minimum. Still counts.</p>
+      </div>
+      <div class="badge" data-points="25" tabindex="0" role="button" aria-pressed="false">
+        <div class="badge-icon">🚿</div>
+        <h3>SHOWER</h3>
+        <div class="pts">+25 GBP</div>
+        <p>Basic hygiene, richly rewarded.</p>
+      </div>
+      <div class="badge" data-points="100" tabindex="0" role="button" aria-pressed="false">
+        <div class="badge-icon">💎</div>
+        <h3>HODL</h3>
+        <div class="pts">+100 GBP</div>
+        <p>Diamond paws only. No paper leashes.</p>
+      </div>
+      <div class="badge" data-points="500" tabindex="0" role="button" aria-pressed="false">
+        <div class="badge-icon">🍗</div>
+        <h3>GOOD BOY</h3>
+        <div class="pts">+500 GBP</div>
+        <p>Maximum pawsitivity. Tendies plate unlocked.</p>
+      </div>
+    </div>
+    <p class="tracker-hint">This tracker resets when you leave the page — it's just for fun, not a wallet balance. <span class="paw">🐾</span></p>
+  </div>
+</section>
+
+<div class="rope-divider" aria-hidden="true"></div>
+
+<!-- ============ HOW TO BUY ============ -->
+<section id="how-to-buy">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Chapter Three</div>
+      <h2>How To Join The Pack</h2>
+      <p>Three steps between you and the plate. Standard for any token on this chain — no special leash required.</p>
+    </div>
+
+    <div class="steps reveal-stagger reveal">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <h3>Get a wallet</h3>
+        <p>Install a self-custody wallet and fund it with the native gas token for the chain $GBP lives on.</p>
+        <span class="step-arrow">→</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <h3>Copy the contract</h3>
+        <p>Use the CA above, paste it into your DEX of choice, and always confirm it matches official links before you swap.</p>
+        <span class="step-arrow">→</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <h3>Swap and sit</h3>
+        <p>Trade your gas token for $GBP, set your slippage sensibly, and hold like a good boy waiting for dinner.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOKENOMICS ============ -->
+<section class="section-dark" id="tokenomics">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Chapter Four</div>
+      <h2>The Kibble Breakdown</h2>
+      <p>Simple, transparent, no tricks — just like a mother's love, but on-chain.</p>
+    </div>
+
+    <div class="token-layout reveal">
+      <div>
+        <div class="donut-wrap">
+          <div class="donut">
+            <div class="donut-center"><b>1B</b><span>Total Supply</span></div>
+          </div>
+        </div>
+        <div class="legend">
+          <div class="legend-row"><span class="legend-swatch" style="background:var(--tendie);"></span><span class="legend-label">Community &amp; Liquidity</span><span class="legend-val">45%</span></div>
+          <div class="legend-row"><span class="legend-swatch" style="background:var(--gold);"></span><span class="legend-label">Locked Liquidity Pool</span><span class="legend-val">25%</span></div>
+          <div class="legend-row"><span class="legend-swatch" style="background:var(--navy-light);"></span><span class="legend-label">Marketing &amp; Kennel Fund</span><span class="legend-val">18%</span></div>
+          <div class="legend-row"><span class="legend-swatch" style="background:var(--ribbon);"></span><span class="legend-label">Team (vested)</span><span class="legend-val">12%</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="token-grid">
+          <div class="token-card">
+            <div class="k">Total Supply</div>
+            <div class="v">1B</div>
+          </div>
+          <div class="token-card">
+            <div class="k">Buy / Sell Tax</div>
+            <div class="v">0%</div>
+          </div>
+          <div class="token-card">
+            <div class="k">Liquidity</div>
+            <div class="v">Locked</div>
+          </div>
+          <div class="token-card">
+            <div class="k">Ownership</div>
+            <div class="v">Renounced</div>
+          </div>
+        </div>
+        <p class="token-note">Figures above are placeholders — update with your actual launch parameters, lock proof, and renounce transaction before publishing. Good boys verify before they trust. <span class="paw">🐾</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rope-divider" aria-hidden="true"></div>
+
+<!-- ============ REPORT CARD ============ -->
+<section id="report-card">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Chapter Five</div>
+      <h2>Pawsitive Behavior Report Card</h2>
+      <p>No roadmap. Just a grading system for how good a boy $GBP intends to be.</p>
+    </div>
+
+    <div class="report-card reveal">
+      <div class="report-head">
+        <span>Term: Ongoing</span>
+        <span>Subject: Good Behavior</span>
+      </div>
+
+      <div class="report-row">
+        <div class="grade">A+</div>
+        <div class="report-body">
+          <h3>Sit &amp; Stay</h3>
+          <p>Contract deployed, liquidity locked, seal minted. The basement door opens.</p>
+        </div>
+        <div class="report-progress">
+          <span class="rp-label">Complete</span>
+          <div class="rp-bar"><div class="rp-fill" data-fill="100"></div></div>
+        </div>
+      </div>
+
+      <div class="report-row">
+        <div class="grade">A</div>
+        <div class="report-body">
+          <h3>Fetch</h3>
+          <p>Community kennel goes live — Telegram, X presence, first wave of good boys join the pack.</p>
+        </div>
+        <div class="report-progress">
+          <span class="rp-label">In progress</span>
+          <div class="rp-bar"><div class="rp-fill" data-fill="65"></div></div>
+        </div>
+      </div>
+
+      <div class="report-row">
+        <div class="grade">B+</div>
+        <div class="report-body">
+          <h3>Roll Over</h3>
+          <p>Listings, CEX conversations, and the first proper leaderboard of certified good boys.</p>
+        </div>
+        <div class="report-progress">
+          <span class="rp-label">Pending</span>
+          <div class="rp-bar"><div class="rp-fill" data-fill="20"></div></div>
+        </div>
+      </div>
+
+      <div class="report-row">
+        <div class="grade">?</div>
+        <div class="report-body">
+          <h3>Good Boy Status</h3>
+          <p>The plate of tendies. TBD — earned, not promised.</p>
+        </div>
+        <div class="report-progress">
+          <span class="rp-label">Locked</span>
+          <div class="rp-bar"><div class="rp-fill" data-fill="0"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HALL OF FAME ============ -->
+<section class="section-dark" id="hall-of-fame">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Chapter Six</div>
+      <h2>Good Boy Hall of Fame</h2>
+      <p>An illustrative leaderboard format for the most pawsitive holders once real holder data is wired in.</p>
+    </div>
+
+    <div class="board-wrap reveal">
+      <div class="board-scroll">
+        <table class="board">
+          <thead>
+            <tr><th>Rank</th><th>Good Boy</th><th>GBP Held</th><th>Title</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank gold">01</td>
+              <td>0x71...b3a9</td>
+              <td>12,400,000</td>
+              <td>Top Dog <span class="title-tag">Diamond Paws</span></td>
+            </tr>
+            <tr>
+              <td class="rank gold">02</td>
+              <td>0x4e...29fc</td>
+              <td>8,150,000</td>
+              <td>Very Good Boy</td>
+            </tr>
+            <tr>
+              <td class="rank gold">03</td>
+              <td>0x9a...77d1</td>
+              <td>6,020,500</td>
+              <td>Very Good Boy</td>
+            </tr>
+            <tr>
+              <td class="rank">04</td>
+              <td>0x18...c40e</td>
+              <td>3,880,250</td>
+              <td>Good Boy</td>
+            </tr>
+            <tr>
+              <td class="rank">05</td>
+              <td>0x62...9b7a</td>
+              <td>2,410,000</td>
+              <td>Good Boy</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="board-note">Sample data for layout purposes only. Swap in a live holder feed from your chain's explorer API before launch.</div>
+    </div>
+  </div>
+</section>
+
+<div class="rope-divider" aria-hidden="true"></div>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Chapter Seven</div>
+      <h2>Frequently Asked Questions</h2>
+      <p>The good, the bad, and the basement — answered plainly.</p>
+    </div>
+
+    <div class="faq-list reveal" id="faqList">
+      <div class="faq-item">
+        <button class="faq-q" type="button">What is $GBP, actually? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">$GBP is a meme token built around the "Good Boy Points" internet bit. It has no utility beyond community and culture — it's entertainment, not an investment product.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">Is there a buy or sell tax? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">The stated parameters above show a 0% buy/sell tax as a placeholder. Always confirm live parameters on-chain before trading, since values here are illustrative until launch is finalized.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">Is liquidity actually locked? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">It should be, and the lock proof should be linked publicly once live. Never take a project's word for it — check the lock contract yourself before buying.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">Where can I follow along? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">The Community section below links to X and Telegram. Those channels carry the real announcements — treat anything else claiming to speak for the project with suspicion.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">Is this financial advice? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No. $GBP is created for entertainment purposes, carries no inherent value or promise of return, and nothing on this page is financial advice. Only ever spend what you can afford to lose.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KENNEL SIGNUP ============ -->
+<section class="section-dark" id="kennel-signup">
+  <div class="wrap">
+    <div class="kennel reveal">
+      <div>
+        <h3>Join the Kennel List</h3>
+        <p>Leave your email for good-boy-only updates. No spam, just tendies news when there's something worth barking about.</p>
+      </div>
+      <form class="kennel-form" id="kennelForm">
+        <input type="email" required placeholder="you@goodboy.eth" aria-label="Email address">
+        <button class="btn" type="submit">Notify Me</button>
+      </form>
+    </div>
+    <p class="kennel-msg" id="kennelMsg" role="status"></p>
+  </div>
+</section>
+
+<!-- ============ BUY / COMMUNITY / FOOTER ============ -->
+<footer id="community">
+  <div class="wrap">
+    <div class="footer-top reveal" id="buy">
+      <h2>Be a Good Boy.</h2>
+      <p>Join the pack, earn your points, and find out what's on the plate.</p>
+
+      <div class="ca-box" style="margin: 0 auto 26px;">
+        <span class="eyebrow" style="color:var(--gold-bright); opacity:0.8;">CA</span>
+        <code>0x523b2177a71936f89a1e0c2b8da791a3d8b0b4ba</code>
+        <button class="copy-btn" id="copyBtn2" type="button">Copy</button>
+      </div>
+
+      <div class="social-row">
+        <a class="btn" href="https://x.com/search?q=%24GBP&src=cashtag_click" target="_blank" rel="noopener noreferrer">Follow on X</a>
+        <a class="btn ghost" href="#" target="_blank" rel="noopener noreferrer">Join Telegram</a>
+        <a class="btn ghost" href="#" target="_blank" rel="noopener noreferrer">View on DEX</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>$GBP — Good Boy Points</span>
+      <span class="disclaimer">$GBP is a meme token created for entertainment purposes and carries no inherent value or promise of return. Nothing here is financial advice — do your own research, and only ever spend what you can afford to lose.</span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Back to top" type="button">↑</button>
+
+<script>
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Nav background on scroll
+  const navEl = document.getElementById('siteNav');
+  const toTopBtn = document.getElementById('toTop');
+  const onScroll = () => {
+    if (window.scrollY > 40) navEl.classList.add('scrolled');
+    else navEl.classList.remove('scrolled');
+    if (window.scrollY > 600) toTopBtn.classList.add('show');
+    else toTopBtn.classList.remove('show');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  toTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' }));
+
+  // Mobile menu
+  const burgerBtn = document.getElementById('burgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuScrim = document.getElementById('menuScrim');
+  function closeMenu(){
+    burgerBtn.classList.remove('open');
+    burgerBtn.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.remove('open');
+    menuScrim.classList.remove('open');
+  }
+  burgerBtn.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    burgerBtn.classList.toggle('open', open);
+    burgerBtn.setAttribute('aria-expanded', String(open));
+    menuScrim.classList.toggle('open', open);
+  });
+  menuScrim.addEventListener('click', closeMenu);
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  // Scrollspy for nav links
+  const sectionIds = ['top','lore','earn','how-to-buy','tokenomics','report-card','hall-of-fame','faq','community'];
+  const navAnchors = document.querySelectorAll('#navLinks a');
+  const spySections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const id = entry.target.id;
+        navAnchors.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  spySections.forEach(sec => spy.observe(sec));
+
+  // Copy contract address
+  function wireCopy(btnId){
+    const btn = document.getElementById(btnId);
+    if(!btn) return;
+    btn.addEventListener('click', async () => {
+      const text = '0x523b2177a71936f89a1e0c2b8da791a3d8b0b4ba';
+      try{
+        await navigator.clipboard.writeText(text);
+      }catch(e){
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = original; }, 1600);
+    });
+  }
+  wireCopy('copyBtn');
+  wireCopy('copyBtn2');
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if (prefersReduced){
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  // Animated count-up stat
+  const countEl = document.querySelector('[data-count]');
+  if (countEl && !prefersReduced){
+    const target = parseInt(countEl.getAttribute('data-count'), 10);
+    const suffix = countEl.getAttribute('data-suffix') || '';
+    const countIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          let current = 0;
+          const step = Math.max(1, Math.round(target / 40));
+          const tick = () => {
+            current = Math.min(target, current + step);
+            countEl.textContent = current + suffix;
+            if (current < target) requestAnimationFrame(tick);
+          };
+          tick();
+          countIO.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    countIO.observe(countEl);
+  }
+
+  // Falling tendie bits in hero (subtle, decorative)
+  if (!prefersReduced){
+    const container = document.getElementById('fallingTendies');
+    const glyphs = ['🍗','🐾'];
+    const count = window.innerWidth < 640 ? 8 : 14;
+    for (let i = 0; i < count; i++){
+      const el = document.createElement('span');
+      el.className = 'tendie-bit';
+      el.textContent = glyphs[i % glyphs.length];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.animationDuration = (14 + Math.random() * 10) + 's';
+      el.style.animationDelay = (Math.random() * -20) + 's';
+      el.style.fontSize = (14 + Math.random() * 12) + 'px';
+      container.appendChild(el);
+    }
+  }
+
+  // Cursor paw trail (desktop pointer only)
+  if (!prefersReduced && window.matchMedia('(hover: hover) and (pointer: fine)').matches){
+    const paw = document.getElementById('pawTrail');
+    let px = 0, py = 0, tx = 0, ty = 0, raf = null, hideTimer = null;
+    window.addEventListener('mousemove', (e) => {
+      tx = e.clientX; ty = e.clientY;
+      paw.style.opacity = '0.6';
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => { paw.style.opacity = '0'; }, 700);
+      if (!raf){
+        raf = requestAnimationFrame(function loop(){
+          px += (tx - px) * 0.25;
+          py += (ty - py) * 0.25;
+          paw.style.transform = `translate(${px}px, ${py}px) translate(-50%,-50%) rotate(${(tx - px) * 1.2}deg)`;
+          if (Math.abs(tx - px) > 0.4 || Math.abs(ty - py) > 0.4){
+            raf = requestAnimationFrame(loop);
+          } else {
+            raf = null;
+          }
+        });
+      }
+    }, { passive: true });
+  }
+
+  // Good Boy Tracker (gamified points)
+  const badgeGrid = document.getElementById('badgeGrid');
+  const trackerScore = document.getElementById('trackerScore');
+  const trackerFill = document.getElementById('trackerFill');
+  const trackerReset = document.getElementById('trackerReset');
+  const MAX_POINTS = 10 + 25 + 100 + 500;
+  let sessionPoints = 0;
+
+  function renderTracker(){
+    trackerScore.textContent = sessionPoints;
+    const pct = Math.min(100, Math.round((sessionPoints / MAX_POINTS) * 100));
+    trackerFill.style.width = pct + '%';
+  }
+
+  function burstConfetti(x, y){
+    if (prefersReduced) return;
+    const colors = ['#cda15f', '#e9c07f', '#bf7a3c', '#7c2536'];
+    for (let i = 0; i < 14; i++){
+      const bit = document.createElement('span');
+      bit.className = 'confetti-piece';
+      bit.style.left = x + (Math.random() * 60 - 30) + 'px';
+      bit.style.top = y + 'px';
+      bit.style.background = colors[i % colors.length];
+      bit.style.animationDuration = (1 + Math.random() * 0.8) + 's';
+      document.body.appendChild(bit);
+      bit.addEventListener('animationend', () => bit.remove());
+    }
+  }
+
+  if (badgeGrid){
+    const badges = badgeGrid.querySelectorAll('.badge');
+    badges.forEach(badge => {
+      const toggle = (evt) => {
+        const pts = parseInt(badge.getAttribute('data-points'), 10) || 0;
+        const isDone = badge.classList.toggle('done');
+        badge.setAttribute('aria-pressed', String(isDone));
+        sessionPoints += isDone ? pts : -pts;
+        renderTracker();
+        if (isDone){
+          const rect = badge.getBoundingClientRect();
+          burstConfetti(rect.left + rect.width / 2, rect.top + window.scrollY + rect.height / 2);
+        }
+      };
+      badge.addEventListener('click', toggle);
+      badge.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          toggle(e);
+        }
+      });
+    });
+  }
+  if (trackerReset){
+    trackerReset.addEventListener('click', () => {
+      sessionPoints = 0;
+      renderTracker();
+      badgeGrid.querySelectorAll('.badge').forEach(b => {
+        b.classList.remove('done');
+        b.setAttribute('aria-pressed', 'false');
+      });
+    });
+  }
+  renderTracker();
+
+  // Report card progress bars animate in
+  const rpFills = document.querySelectorAll('.rp-fill');
+  const rpIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const fill = entry.target.getAttribute('data-fill') || '0';
+        entry.target.style.width = fill + '%';
+        rpIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  rpFills.forEach(f => rpIO.observe(f));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(other => {
+        if (other !== item){
+          other.classList.remove('open');
+          other.querySelector('.faq-a').style.maxHeight = null;
+        }
+      });
+      if (isOpen){
+        item.classList.remove('open');
+        a.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // Kennel signup (client-side only, no backend — front-end demo)
+  const kennelForm = document.getElementById('kennelForm');
+  const kennelMsg = document.getElementById('kennelMsg');
+  if (kennelForm){
+    kennelForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      kennelMsg.textContent = "You're on the list, good boy. Watch your inbox.";
+      kennelForm.reset();
+    });
+  }
+</script>
+
+</body>
+</html>
